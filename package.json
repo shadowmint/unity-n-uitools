@@ -1,0 +1,26 @@
+{
+  "name": "unity-n-uitools",
+  "version": "0.0.1",
+  "description": "UI tooling for components",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadowmint/unity-n-uitools.git"
+  },
+  "files": [
+    "index.js",
+    "scripts",
+    "src"
+  ],
+  "author": "douglas.linder@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shadowmint/unity-n-uitools/issues"
+  },
+  "homepage": "https://github.com/shadowmint/unity-n-uitools",
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "dependencies": {
+  }
+}
