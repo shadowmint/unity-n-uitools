@@ -4,7 +4,7 @@
 
 ## Terminology
 
-[Terms](https://raw.github.com/shadowmint/unity-article-recttransform/master/docs/images/terms.png)
+![Terms](https://raw.github.com/shadowmint/unity-article-recttransform/master/docs/images/terms.png)
 
 ## Anchors
 
