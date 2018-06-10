@@ -6,7 +6,7 @@ This is a set of helpers and tools for working with unity UI components.
 
 Reference documentation:
 
-- [RectTransform](https://github.com/shadowmint/unity-package-template/blob/master/docs/recttransform.md)
+- [RectTransform](https://github.com/shadowmint/unity-n-uitools/blob/master/docs/recttransform.md)
 
 ## Usage
 
