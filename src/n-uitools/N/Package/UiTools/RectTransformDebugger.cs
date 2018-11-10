@@ -1,7 +1,9 @@
 ﻿using System;
+using N.Package.UiTools.Utility;
+using N.Package.UiTools.Utility.Model;
 using UnityEngine;
 
-namespace Articles.UiTools
+namespace N.Package.UiTools
 {
   [ExecuteInEditMode]
   public class RectTransformDebugger : MonoBehaviour

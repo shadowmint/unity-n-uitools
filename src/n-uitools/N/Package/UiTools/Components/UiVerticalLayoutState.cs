@@ -1,6 +1,7 @@
-﻿using Articles.UiTools.Infrastructure;
+﻿using N.Package.UiTools.Infrastructure;
+using N.Package.UiTools.Utility.Model;
 
-namespace Articles.UiTools.Components
+namespace N.Package.UiTools.Components
 {
   public class UiVerticalLayoutState : ILayoutComponentState
   {

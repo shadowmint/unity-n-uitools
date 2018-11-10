@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Articles.UiTools
+namespace N.Package.UiTools.Utility.Model
 {
   [System.Serializable]
   public class RectTransformOffsets

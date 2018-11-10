@@ -1,8 +1,9 @@
-﻿using Boo.Lang;
-using UnityEditorInternal;
+﻿using System;
+using N.Package.Flow;
+using N.Package.UiTools.Utility.Model;
 using UnityEngine;
 
-namespace Articles.UiTools
+namespace N.Package.UiTools.Utility
 {
   public class RectTransformService
   {
@@ -81,6 +82,67 @@ namespace Articles.UiTools
     public void Move(RectTransformState state, Vector2 value)
     {
       state.Transform.anchoredPosition = value;
+    }
+
+    /// <summary>
+    /// Apply a rect layout from a template onto a target.
+    /// </summary>
+    public void ApplyTransform(RectTransform layout, RectTransform transform)
+    {
+      transform.anchorMin = layout.anchorMin;
+      transform.anchorMax = layout.anchorMax;
+      transform.offsetMin = layout.offsetMin;
+      transform.offsetMax = layout.offsetMax;
+      transform.pivot = layout.pivot;
+      transform.anchoredPosition3D = layout.anchoredPosition3D;
+      transform.localScale = layout.localScale;
+      transform.rotation = layout.rotation;
+    }
+
+    /// <summary>
+    /// Apply a rect layout from a template onto a target.
+    /// </summary>
+    public void ApplyTransform(RectTransform layout, FlowComponentProperties properties)
+    {
+      var transform = properties.GetComponent<RectTransform>();
+      ApplyTransform(layout, transform);
+    }
+
+    /// <summary>
+    /// Apply a rect layout from a template onto a target.
+    /// </summary>
+    public void ApplyTransform(RectTransform layout, GameObject target)
+    {
+      var transform = target.GetComponent<RectTransform>();
+      ApplyTransform(layout, transform);
+    }
+
+    /// <summary>
+    /// Set the fixed size component of the transform.
+    /// </summary>
+    public void SetFixedSizeFromEdge(RectTransformState state, float size, RectTransformEdge edge, float offset = 0f)
+    {
+      switch (edge)
+      {
+        case RectTransformEdge.Left:
+          state.Transform.offsetMax = new Vector2(size + offset, 0);
+          state.Transform.offsetMin = new Vector2(offset, 0);
+          break;
+        case RectTransformEdge.Right:
+          state.Transform.offsetMin = new Vector2(-size - offset, 0);
+          state.Transform.offsetMax = new Vector2(-offset, 0);
+          break;
+        case RectTransformEdge.Top:
+          state.Transform.offsetMin = new Vector2(0, -size - offset);
+          state.Transform.offsetMax = new Vector2(0, -offset);
+          break;
+        case RectTransformEdge.Bottom:
+          state.Transform.offsetMax = new Vector2(0, size + offset);
+          state.Transform.offsetMin = new Vector2(0, offset);
+          break;
+        default:
+          throw new ArgumentOutOfRangeException(nameof(edge), edge, null);
+      }
     }
   }
 }

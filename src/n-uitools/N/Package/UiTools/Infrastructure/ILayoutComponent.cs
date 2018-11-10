@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
 
-namespace Articles.UiTools.Infrastructure
+namespace N.Package.UiTools.Infrastructure
 {
   public interface ILayoutComponent
   {

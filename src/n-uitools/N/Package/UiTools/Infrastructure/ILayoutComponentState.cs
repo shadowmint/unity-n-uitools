@@ -1,4 +1,6 @@
-﻿namespace Articles.UiTools.Infrastructure
+﻿using N.Package.UiTools.Utility.Model;
+
+namespace N.Package.UiTools.Infrastructure
 {
   public interface ILayoutComponentState
   {

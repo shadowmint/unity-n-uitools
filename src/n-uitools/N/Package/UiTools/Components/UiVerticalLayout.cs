@@ -1,8 +1,9 @@
 ﻿using System;
-using Articles.UiTools.Infrastructure;
+using N.Package.UiTools.Infrastructure;
+using N.Package.UiTools.Utility;
 using UnityEngine;
 
-namespace Articles.UiTools.Components
+namespace N.Package.UiTools.Components
 {
   [ExecuteInEditMode]
   [RequireComponent(typeof(RectTransform))]
@@ -53,8 +54,8 @@ namespace Articles.UiTools.Components
 
       var size = Service.GetSize(state.Child);
       Service.Move(state.Child, new Vector2(0, state.LayoutOffset));
+
       state.LayoutOffset += (size.y + Padding) * state.Direction;
-      Debug.Log(state.LayoutOffset);
     }
 
     public void Complete(ILayoutComponentState raw)
@@ -64,10 +65,17 @@ namespace Articles.UiTools.Components
 
       if (AdjustContainerSize)
       {
+        var size = RectTransform.sizeDelta;
+        var delta = Mathf.Abs(Mathf.Abs(state.LayoutOffset) - Mathf.Abs(size.y));
+        if (delta < 0.1f)
+        {
+          return;
+        }
+
         if (Direction == UiVerticalLayoutDirection.Down)
         {
-          RectTransform.offsetMin = new Vector2(RectTransform.offsetMax.x, 0);
-          RectTransform.offsetMax = new Vector2(RectTransform.offsetMax.x, -state.LayoutOffset);
+          RectTransform.offsetMax = new Vector2(RectTransform.offsetMax.x, 0);
+          RectTransform.offsetMin = new Vector2(RectTransform.offsetMax.x, state.LayoutOffset);
         }
         else
         {

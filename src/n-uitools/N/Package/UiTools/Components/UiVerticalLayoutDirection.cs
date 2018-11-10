@@ -1,4 +1,4 @@
-﻿namespace Articles.UiTools.Components
+﻿namespace N.Package.UiTools.Components
 {
   public enum UiVerticalLayoutDirection
   {

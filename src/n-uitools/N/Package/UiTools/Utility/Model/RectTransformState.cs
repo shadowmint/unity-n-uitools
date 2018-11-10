@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Articles.UiTools
+namespace N.Package.UiTools.Utility.Model
 {
   /// <summary>
   /// This is a persistent stateful class representing a rect transform to save many GetComponent() calls.

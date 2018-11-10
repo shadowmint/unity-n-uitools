@@ -1,11 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using N.Package.UiTools.Utility.Model;
 using UnityEngine;
 
-namespace Articles.UiTools.Infrastructure
+namespace N.Package.UiTools.Infrastructure
 {
   [System.Serializable]
   public class LayoutState
   {
+    private const int UpdateThresholdFrames = 4;
+
+    private int _childCount;
+
+    private bool _childrenChanged;
+
+    private int _childConstantFrames;
+
     public bool ApplyLayout = true;
 
     public bool CollectChildren = true;
@@ -14,28 +25,58 @@ namespace Articles.UiTools.Infrastructure
 
     public void Update(ILayoutComponent layout)
     {
+      DetectChildChanges(layout);
       CollectChildrenForLayout(layout);
       ExecuteLayout(layout);
     }
 
     private void CollectChildrenForLayout(ILayoutComponent layout)
     {
-      var transform = layout.RectTransform;
-      if (transform.childCount != _children.Count)
-      {
-        CollectChildren = true;
-        ApplyLayout = true;
-      }
-
       if (!CollectChildren) return;
       CollectChildren = false;
 
       _children.Clear();
+      var transform = layout.RectTransform;
       var count = transform.childCount;
       for (var i = 0; i < count; i++)
       {
         var child = transform.GetChild(i) as RectTransform;
         _children.Add(new RectTransformState(child));
+      }
+    }
+
+    private void DetectChildChanges(ILayoutComponent layout)
+    {
+      var transform = layout.RectTransform;
+
+      // If we're waiting to spool a change, wait for the child count to settle so we don't spam.
+      if (_childrenChanged)
+      {
+        if (_childCount == transform.childCount)
+        {
+          _childConstantFrames += 1;
+          if (_childConstantFrames > UpdateThresholdFrames)
+          {
+            _childrenChanged = false;
+            CollectChildren = true;
+            ApplyLayout = true;
+          }
+        }
+        else
+        {
+          _childCount = transform.childCount;
+          _childConstantFrames = 0;
+        }
+
+        return;
+      }
+
+      // Otherwise, start watching if it changed
+      if (transform.childCount != _children.Count)
+      {
+        _childrenChanged = true;
+        _childCount = transform.childCount;
+        _childConstantFrames = 1;
       }
     }
 
@@ -45,12 +86,25 @@ namespace Articles.UiTools.Infrastructure
       ApplyLayout = false;
 
       var state = layout.Prepare();
-      var count = _children.Count;
+
+      var activeChildren = _children.Where(i =>
+      {
+        try
+        {
+          return i.Transform.transform.gameObject.activeInHierarchy;
+        }
+        catch (Exception)
+        {
+          return false;
+        }
+      }).ToList();
+
+      var count = activeChildren.Count;
       state.Count = count;
 
       for (var i = 0; i < count; i++)
       {
-        state.Child = _children[i];
+        state.Child = activeChildren[i];
         state.Offset = i;
         layout.Apply(state);
       }
