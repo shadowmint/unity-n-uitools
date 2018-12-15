@@ -1,6 +1,6 @@
 {
   "name": "unity-n-uitools",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UI tooling for components",
   "main": "index.js",
   "repository": {
