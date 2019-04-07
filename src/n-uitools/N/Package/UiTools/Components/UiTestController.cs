@@ -1,5 +1,6 @@
 ﻿using System;
 using N.Package.Flow;
+using UnityEngine;
 
 namespace N.Package.UiTools.Components
 {
@@ -10,6 +11,8 @@ namespace N.Package.UiTools.Components
         where TState : FlowComponentState
         where TComponent : class, IFlowComponent
     {
+        public GameObject rootContainer;
+        
         private TComponent _component;
 
         public void Start()
@@ -25,7 +28,7 @@ namespace N.Package.UiTools.Components
 
         protected override IFlowComponent OnComponentLayout()
         {
-            State.Container = () => gameObject;
+            State.Container = () => rootContainer == null ? gameObject : rootContainer;
             return _component;
         }
     }
